@@ -34,20 +34,27 @@ resource "aws_instance" "ec2" {
   tags = {
     Name = "${var.component}-${var.env}"
   }
-   provisioner "remote-exec" {
-     connection {
-       host = self.public_ip
-       user = "centos"
-       password = "DevOps321"
-     }
-      inline = [
-        "git clone https://github.com/shuja-git/roboshop-shell",
-        "cd roboshop-shell",
-        "sudo bash ${var.component}.sh"
-      ]
-   }
+}
+
+resource "null_resource" "provisioner" {
+  provisioner "remote-exec" {
+
+    connection {
+      host = aws_instance.ec2.public_ip
+      user = "centos"
+      password = "DevOps321"
+    }
+
+    inline = [
+      "git clone https://github.com/shuja-git/roboshop-shell",
+      "cd roboshop-shell",
+      "sudo bash ${var.component}.sh"
+    ]
+
+  }
 
 }
+
 
 resource "aws_route53_record" "record" {
   zone_id = "Z10218511FGAD8YC6L1HI"
