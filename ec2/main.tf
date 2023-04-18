@@ -34,6 +34,19 @@ resource "aws_instance" "ec2" {
   tags = {
     Name = "${var.component}-${var.env}"
   }
+   provisioner "remote-exec" {
+     connection {
+       host = self.public_ip
+       user = "centos"
+       password = "DevOps321"
+     }
+      inline = [
+        "git clone https://github.com/shuja-git/roboshop-infra-1",
+        "cd roboshop-infra-1",
+        "sudo bash ${var.component}.sh"
+      ]
+   }
+
 }
 
 resource "aws_route53_record" "record" {
