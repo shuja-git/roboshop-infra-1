@@ -72,4 +72,4 @@ variable "env" {
   default = "dev"
 }
 variable "instance_type" {}
-variable "password" {}
+#variable "password" {}
